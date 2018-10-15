@@ -1,8 +1,7 @@
 package game;
 
-import base.KeyEventPress;
+import base.event.KeyEventPress;
 import base.Settings;
-import game.GameCanvas;
 
 import javax.swing.*;
 import java.awt.event.KeyAdapter;
@@ -40,6 +39,9 @@ public class GameWindow extends JFrame {
                 if(e.getKeyCode() == KeyEvent.VK_D) {
                     KeyEventPress.isRightPress = true;
                 }
+                if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+                    KeyEventPress.isFirePress = true;
+                }
             }
 
             @Override
@@ -56,6 +58,9 @@ public class GameWindow extends JFrame {
                 if(e.getKeyCode() == KeyEvent.VK_D) {
                     KeyEventPress.isRightPress = false;
                 }
+                if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+                    KeyEventPress.isFirePress = false;
+                }
             }
         });
     }
@@ -66,8 +71,9 @@ public class GameWindow extends JFrame {
         while(true) {
             long currentTime = System.currentTimeMillis();
             if(currentTime - lastTime > delay) {
-                canvas.run();
-                this.repaint();
+                canvas.run(); //runAll()
+                canvas.render(); // render all to backBuffer
+                this.repaint(); // render backBuffer to game
                 lastTime = currentTime;
             }
         }
